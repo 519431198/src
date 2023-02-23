@@ -47,8 +47,8 @@ func main() {
 	var path = "/Users/wangyi/log/"
 	fileName := loadFile(path)
 	time.Sleep(time.Second * 10)
-	for _, v := range fileName {
-		go readRecord(path + v)
+	for _, name := range fileName {
+		go readRecord(path + name)
 	}
 	time.Sleep(time.Second * 15)
 }
