@@ -38,13 +38,11 @@ func main() {
 		log.Fatal("unable to creat ssh conn")
 	}
 
-	//sshSession，这个 sshSession 是用来远程执行操作的
+	//创建 sshSession 会话，随后可用 sshSession 来与目标机器进行通信.通过 NewSession方法实现该操作
 	sshSession, err := clientConn.NewSession()
 	if err != nil {
 		log.Fatal("unable to create ssh session")
 	}
-	//定义需要执行的操作
-	shell := "cd /root;ls -l"
 	/*
 		每次执行一条命令都会创建一条session
 		这是因为一条session默认只能执行一条命令
@@ -55,7 +53,10 @@ func main() {
 		这两条命令是无法连续的，下面的ls查看的依旧是~目录
 		因此我们可以连着写，使用;分割
 		例如: shell := "cd /root;ls -l"
+		此外,该方法不能执行交互式命令,仅仅能执行查询类命令
 	*/
+	//定义需要执行的操作
+	shell := "cd /root;cat test.txt"
 	output, err := sshSession.CombinedOutput(shell)
 	if err != nil {
 		log.Fatal("error occurred:", err)
