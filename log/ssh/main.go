@@ -10,7 +10,6 @@ import (
 func main() {
 
 }
-
 func connect(user, password, host string, port int) (*sftp.Client, error) {
 	var (
 		auth         []ssh.AuthMethod
@@ -32,15 +31,15 @@ func connect(user, password, host string, port int) (*sftp.Client, error) {
 
 	// connet to ssh
 	addr = fmt.Sprintf("%s:%d", host, port)
-	sshClient, err = ssh.Dial("tcp", addr, clientConfig)
-	if err != nil {
+
+	if sshClient, err = ssh.Dial("tcp", addr, clientConfig); err != nil {
 		return nil, err
 	}
 
 	// create sftp client
-	sftpClient, err = sftp.NewClient(sshClient)
-	if err != nil {
+	if sftpClient, err = sftp.NewClient(sshClient); err != nil {
 		return nil, err
 	}
+
 	return sftpClient, nil
 }
