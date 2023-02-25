@@ -76,11 +76,13 @@ func main() {
 	*/
 	fmt.Println(cliConf.RunShell("cd /root; ls -l"))
 	/*
-		total 20
-		drwxr-xr-x 3 root root 4096 Nov 18 14:05 hadoop
-		drwxr-xr-x 3 root root 4096 Nov 18 14:20 hive
-		drwxr-xr-x 3 root root 4096 Nov 18 15:07 java
-		drwxr-xr-x 3 root root 4096 Nov  4 23:01 kafka
-		drwxr-xr-x 3 root root 4096 Nov  4 22:54 zookeeper
+		total 2448
+		-rw-------. 1 root root    1274 Feb 25  2022 anaconda-ks.cfg
+		-rw-r--r--  1 root root    1072 Oct 19 18:47 default.conf.1
+		-rw-r--r--  1 root root     125 Feb 13 22:25 dump.rdb
+		-rw-r--r--  1 root root     326 Feb 25  2022 hostnameIp.sh
+		-rw-r--r--  1 root root 2489670 Jan 12 21:09 redis-6.2.8.tar.gz
+		-rw-r--r--  1 root root       0 Feb 28  2022 test.txt
+
 	*/
 }
