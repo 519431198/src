@@ -5,6 +5,7 @@ import (
 	"github.com/pkg/sftp"
 	"golang.org/x/crypto/ssh"
 	"io"
+	"io/ioutil"
 	"log"
 	"net"
 	"os"
@@ -84,9 +85,10 @@ func (cliConf *clientConfig) Upload(srcPath, dstPath string) {
 		_ = srcFile.Close()
 		_ = dstFile.Close()
 	}()
-	buf := make([]byte, 2048)
+	//buf := make([]byte, 2048)
+	buf, _ := ioutil.ReadAll(srcFile)
 	for {
-		n, err := srcFile.Read(buf)
+		_, err := srcFile.Read(buf)
 		if err != nil {
 			if err != io.EOF {
 				log.Fatalln("error occurred:", err)
@@ -94,9 +96,10 @@ func (cliConf *clientConfig) Upload(srcPath, dstPath string) {
 				break
 			}
 		}
-		_, _ = dstFile.Write(buf[:n])
+		//_, _ = dstFile.Write(buf[:n])
+		_, _ = dstFile.Write(buf)
 	}
-	fmt.Println(cliConf.RunShell(fmt.Sprintf("ls %s", dstPath)))
+	fmt.Println(cliConf.RunShell(fmt.Sprintf("ls -l %s", dstPath)))
 }
 
 // Download 下载文件
@@ -118,9 +121,10 @@ func main() {
 	var cliConf = new(clientConfig)
 	//cliConf := new(clientConfig)
 	cliConf.createClient("10.0.0.4", 22, "root", "123")
+	//执行 shell 命令
+	fmt.Println(cliConf.RunShell("cd /root; ls -lh"))
 	//本地上传文件到服务器
 	cliConf.Upload("/Users/wangyi/test.txt", "/root/test.txt")
 	//从服务器中下载文件
 	//cliConf.Download("/root/download.txt", "/Users/wangyi/download.txt")
-	//fmt.Println(cliConf.RunShell("cd /root; ls -lh"))
 }
