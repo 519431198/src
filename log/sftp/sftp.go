@@ -79,7 +79,11 @@ func (cliConf *clientConfig) RunShell(shell string) string {
 
 // Upload 上传文件
 func (cliConf *clientConfig) Upload(srcPath, dstPath string) {
-	srcFile, _ := os.Open(srcPath)                   //本地路径
+	srcFile, err := os.Open(srcPath) //本地路径
+	if err != nil {
+		log.Fatalln(err)
+		return
+	}
 	dstFile, _ := cliConf.sftpClient.Create(dstPath) //远程服务器路径
 	defer func() {
 		_ = srcFile.Close()
@@ -104,13 +108,17 @@ func (cliConf *clientConfig) Upload(srcPath, dstPath string) {
 
 // Download 下载文件
 func (cliConf *clientConfig) Download(srcPath, dstPath string) {
-	srcFile, _ := cliConf.sftpClient.Open(srcPath) //远程服务器路径
-	dstFile, _ := os.Create(dstPath)               //本地路径
+	srcFile, err := cliConf.sftpClient.Open(srcPath) //远程服务器路径
+	if err != nil {
+		log.Fatalln(err)
+		return
+	}
+	dstFile, _ := os.Create(dstPath) //本地路径
 	defer func() {
 		_ = srcFile.Close()
 		_ = dstFile.Close()
 	}()
-	_, err := srcFile.WriteTo(dstFile)
+	_, err = srcFile.WriteTo(dstFile)
 	if err != nil {
 		log.Fatalln("error occurred", err)
 	}
@@ -122,9 +130,9 @@ func main() {
 	//cliConf := new(clientConfig)
 	cliConf.createClient("10.0.0.4", 22, "root", "123")
 	//执行 shell 命令
-	fmt.Println(cliConf.RunShell("cd /root; ls -lh"))
+	cliConf.RunShell("cd /root; ls download.*")
 	//本地上传文件到服务器
 	cliConf.Upload("/Users/wangyi/test.txt", "/root/test.txt")
 	//从服务器中下载文件
-	//cliConf.Download("/root/download.txt", "/Users/wangyi/download.txt")
+	cliConf.Download("/root/download.txt", "/Users/wangyi/download.txt")
 }
