@@ -50,6 +50,7 @@ func (cliConf *clientConfig) createClient(host string, port int64, username, pas
 	if client, err = ssh.Dial("tcp", addr, &config); err != nil {
 		log.Fatalln("error occurred:", err)
 	}
+	//获取到客户端链接
 	cliConf.Client = client
 }
 func (cliConf *clientConfig) RunShell(shell string) string {
