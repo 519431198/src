@@ -110,7 +110,7 @@ func (cliConf *clientConfig) Upload(srcPath, dstPath string) {
 func (cliConf *clientConfig) Download(srcPath, dstPath string) {
 	srcFile, err := cliConf.sftpClient.Open(srcPath) //远程服务器路径
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatalln(srcPath, err)
 		return
 	}
 	dstFile, _ := os.Create(dstPath) //本地路径
@@ -134,5 +134,5 @@ func main() {
 	//本地上传文件到服务器
 	cliConf.Upload("/Users/wangyi/test.txt", "/root/test.txt")
 	//从服务器中下载文件
-	cliConf.Download("/root/download.txt", "/Users/wangyi/download.txt")
+	cliConf.Download("/root/test.txt", "/Users/wangyi/")
 }
