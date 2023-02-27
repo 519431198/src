@@ -10,6 +10,7 @@ require (
 	github.com/nxadm/tail v1.4.8 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/pkg/sftp v1.13.5 // indirect
+	github.com/wanghuiyt/ding v0.0.1 // indirect
 	golang.org/x/crypto v0.6.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
 	golang.org/x/tools v0.0.0-20201224043029-2b0845dc783e // indirect
