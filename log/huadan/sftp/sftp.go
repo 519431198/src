@@ -1,4 +1,4 @@
-package main
+package sftp
 
 import (
 	"fmt"
@@ -12,8 +12,8 @@ import (
 	"time"
 )
 
-// clientConfig 创建连接的配置的结构体
-type clientConfig struct {
+// ClientConfig 创建连接的配置的结构体
+type ClientConfig struct {
 	Host       string      //ip
 	Port       int64       // 端口
 	Username   string      //用户名
@@ -23,7 +23,7 @@ type clientConfig struct {
 	LastResult string //最近一次运行的结果
 }
 
-func (cliConf *clientConfig) createClient(host string, port int64, username, password string) {
+func (cliConf *ClientConfig) CreateClient(host string, port int64, username, password string) {
 	//将传入的参数赋值给 ClientConfig 结构体字段
 	var sshClient *ssh.Client
 	var sftpClient *sftp.Client
@@ -59,7 +59,7 @@ func (cliConf *clientConfig) createClient(host string, port int64, username, pas
 	cliConf.sftpClient = sftpClient
 }
 
-func (cliConf *clientConfig) RunShell(shell string) string {
+func (cliConf *ClientConfig) RunShell(shell string) string {
 	var session *ssh.Session
 	var err error
 	//获取 session 会话，这个session是用来远程执行操作的
@@ -78,7 +78,7 @@ func (cliConf *clientConfig) RunShell(shell string) string {
 }
 
 // Upload 上传文件
-func (cliConf *clientConfig) Upload(srcPath, dstPath string) {
+func (cliConf *ClientConfig) Upload(srcPath, dstPath string) {
 	srcFile, err := os.Open(srcPath) //本地路径
 	if err != nil {
 		log.Fatalln(err)
@@ -107,7 +107,7 @@ func (cliConf *clientConfig) Upload(srcPath, dstPath string) {
 }
 
 // Download 下载文件
-func (cliConf *clientConfig) Download(srcPath, dstPath string) {
+func (cliConf *ClientConfig) Download(srcPath, dstPath string) {
 	srcFile, err := cliConf.sftpClient.Open(srcPath) //远程服务器路径
 	if err != nil {
 		log.Fatalln(srcPath, err)
@@ -123,38 +123,4 @@ func (cliConf *clientConfig) Download(srcPath, dstPath string) {
 		log.Fatalln("error occurred", err)
 	}
 	fmt.Println(srcPath, "下载文件完毕!")
-}
-func main() {
-	//对结构体变量进行内存分配
-	var cliConf = new(clientConfig)
-	//cliConf := new(clientConfig)
-	cliConf.createClient("10.0.0.4", 22, "root", "123")
-	//执行 shell 命令
-	//now := time.Now()
-	//fileName1 := fmt.Sprintf(now.Format("2006-01-02\n"))
-	fileName1 := "download"
-	name := fmt.Sprint(cliConf.RunShell("cd /root; ls " + fileName1 + "*"))
-	//fmt.Println(name)
-	//本地上传文件到服务器
-	//cliConf.Upload("/Users/wangyi/test.txt", "/root/test.txt")
-	//从服务器中下载文件
-	//for i, v := range name {
-	//	fmt.Println(i)
-	//	name1 += fmt.Sprintf(string(v))
-	//	fmt.Println(name1)
-	//}
-
-	var fileName string
-	for _, v := range name {
-		if v == 10 {
-			if fileName == "" {
-				continue
-			}
-			cliConf.Download("/root/"+fileName, "/Users/wangyi/"+fileName)
-			fileName = ""
-			continue
-		}
-		fileName += fmt.Sprintf(string(v))
-	}
-	//name := "/root/download.csv"
 }

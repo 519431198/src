@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	cmd := exec.Command("cat", "/Users/wangyi/go/src/go.sum")
+	cmd := exec.Command("tail", "/Users/wangyi/go/src/go.sum", "/Users/wangyi")
 	//获取管道
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
@@ -35,7 +35,7 @@ func main() {
 			return
 		}
 	}
-	//将 tempOutput 中数据写入缓冲区
+	////将 tempOutput 中数据写入缓冲区
 	outputBuf0.Write(tempOutput[:n])
 	fmt.Printf("%s\n", outputBuf0.String())
 }
