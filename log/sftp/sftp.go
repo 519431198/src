@@ -132,11 +132,11 @@ func main() {
 	//执行 shell 命令
 	//now := time.Now()
 	//fileName1 := fmt.Sprintf(now.Format("2006-01-02\n"))
-	fileName1 := "download"
-	name := fmt.Sprint(cliConf.RunShell("cd /root; ls " + fileName1 + "*"))
+	//fileName1 := "download"
+	//name := fmt.Sprint(cliConf.RunShell("cd /root; ls " + fileName1 + "*"))
 	//fmt.Println(name)
 	//本地上传文件到服务器
-	//cliConf.Upload("/Users/wangyi/test.txt", "/root/test.txt")
+	cliConf.Upload("/Users/wangyi/log/21-0.log", "/root/21-0.log")
 	//从服务器中下载文件
 	//for i, v := range name {
 	//	fmt.Println(i)
@@ -144,17 +144,17 @@ func main() {
 	//	fmt.Println(name1)
 	//}
 
-	var fileName string
-	for _, v := range name {
-		if v == 10 {
-			if fileName == "" {
-				continue
-			}
-			cliConf.Download("/root/"+fileName, "/Users/wangyi/"+fileName)
-			fileName = ""
-			continue
-		}
-		fileName += fmt.Sprintf(string(v))
-	}
+	//var fileName string
+	//for _, v := range name {
+	//	if v == 10 {
+	//		if fileName == "" {
+	//			continue
+	//		}
+	//		cliConf.Download("/root/"+fileName, "/Users/wangyi/"+fileName)
+	//		fileName = ""
+	//		continue
+	//	}
+	//	fileName += fmt.Sprintf(string(v))
+	//}
 	//name := "/root/download.csv"
 }
