@@ -42,7 +42,7 @@ func sftpClient(client *ssh.Client) (sftpClient *sftp.Client) {
 	return sftpClient
 }
 
-// 获取文件名
+// 获取符合要求的文件名
 func filename(sshClient *ssh.Client, remoteDir string) (fileName []string) {
 	// 获取远程服务器指定目录下所有文件
 	session, err := sshClient.NewSession()
@@ -58,7 +58,7 @@ func filename(sshClient *ssh.Client, remoteDir string) (fileName []string) {
 		os.Exit(1)
 	}
 
-	// 匹配特定命名规则的文件名
+	// 正则匹配特定命名规则的文件名,可以根据需求自定义规则
 	re := regexp.MustCompile("2023-02-21.\\d{1}\\.log")
 	for _, file := range filepath.SplitList(string(output)) {
 		if re.MatchString(file) {
@@ -105,8 +105,9 @@ func download(sftpClient *sftp.Client, remotePath string, localPath string) {
 	var buf [bufferSize]byte
 	var written int64
 
-	// 逐块读取远程文件并写入本地文件
+	// 定义开始时间
 	lastUpdate := time.Now()
+	// 逐块读取远程文件并写入本地文件
 	for {
 		n, err := remoteFile.Read(buf[:])
 		if err != nil && err != io.EOF {
@@ -122,8 +123,10 @@ func download(sftpClient *sftp.Client, remotePath string, localPath string) {
 
 		// 更新已下载的文件大小并输出下载进度
 		written += int64(n)
+		// time.Since(lastUpdate).Seconds() > 1.5 --> 和上一次时间作比较,超过 1.5s 则输出一次
 		if time.Since(lastUpdate).Seconds() > 1.5 {
 			fmt.Printf("Downloaded %.2f%%...\n", float64(written)/float64(remoteFileSize)*100)
+			//更新当前时间
 			lastUpdate = time.Now()
 		}
 	}
@@ -133,14 +136,20 @@ func download(sftpClient *sftp.Client, remotePath string, localPath string) {
 }
 
 func main() {
-
+	// 连接远程服务器
 	sshClient := sshClient("root", "123", "10.0.0.4")
 	defer sshClient.Close()
+
+	// 创建 SFTP 客户端,用于文件传输
 	sftpClient := sftpClient(sshClient)
 	defer sftpClient.Close()
+
+	// 获取远程目录下符合要求的文件名
 	remoteDir := "/root/22"
 	localPath := "/Users/wangyi/22"
 	filename := filename(sshClient, remoteDir)
+
+	// 下载符合要求的文件并保存到本地路径
 	for _, name := range filename {
 		//fmt.Println(name)
 		download(sftpClient, remoteDir+"/"+name, localPath+"/"+name)
