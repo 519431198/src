@@ -51,7 +51,6 @@ func filename(sshClient *ssh.Client, remoteDir string) (fileName []string) {
 		os.Exit(1)
 	}
 	defer session.Close()
-
 	cmd := fmt.Sprintf("ls %s", remoteDir)
 	output, err := session.CombinedOutput(cmd)
 	if err != nil {
@@ -146,5 +145,4 @@ func main() {
 		//fmt.Println(name)
 		download(sftpClient, remoteDir+"/"+name, localPath+"/"+name)
 	}
-	//download(sftpClient, remoteDir+"/"+file, localPath+"/"+file)
 }
