@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/my/repo/chatGpt/sshSftp/untils"
 	"github.com/pkg/sftp"
 	"golang.org/x/crypto/ssh"
 	"io"
@@ -14,7 +15,7 @@ import (
 )
 
 // 获取ssh client链接
-func sshClient(user string, passwd string, url string) (client *ssh.Client) {
+func sshClient(user string, passwd string, url string, port string) (client *ssh.Client) {
 	// 配置 SSH 客户端信息
 	config := &ssh.ClientConfig{
 		User: user, // 远程服务器用户名
@@ -25,7 +26,7 @@ func sshClient(user string, passwd string, url string) (client *ssh.Client) {
 	}
 
 	// 拨号连接远程服务器
-	client, err := ssh.Dial("tcp", url+":22", config)
+	client, err := ssh.Dial("tcp", url+":"+port, config)
 	if err != nil {
 		panic("Failed to dial: " + err.Error())
 	}
@@ -136,8 +137,14 @@ func download(sftpClient *sftp.Client, remotePath string, localPath string) {
 }
 
 func main() {
+
+	err := untils.LoadConfig()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	// 连接远程服务器
-	sshClient := sshClient("root", "123", "10.0.0.4")
+	sshClient := sshClient(untils.ConfigData.Ssh.User, untils.ConfigData.Ssh.Passwd, untils.ConfigData.Ssh.Ip, untils.ConfigData.Ssh.Port)
 	defer sshClient.Close()
 
 	// 创建 SFTP 客户端,用于文件传输
@@ -145,8 +152,8 @@ func main() {
 	defer sftpClient.Close()
 
 	// 获取远程目录下符合要求的文件名
-	remoteDir := "/root/22"
-	localPath := "/Users/wangyi/22"
+	remoteDir := untils.ConfigData.Path.Filepath1.RemoteDir1
+	localPath := untils.ConfigData.Path.Filepath1.LocalDir1
 	filename := filename(sshClient, remoteDir)
 
 	// 下载符合要求的文件并保存到本地路径

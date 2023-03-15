@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"go_code/chapter10/factory/model"
+
+	"github.com/my/repo/go_code/chapter10/factory/model"
 )
 
 func main() {

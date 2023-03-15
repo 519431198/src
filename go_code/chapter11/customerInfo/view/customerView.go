@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"go_code/chapter11/customerInfo/model"
-	"go_code/chapter11/customerInfo/service"
+	"github.com/my/repo/go_code/chapter11/customerInfo/model"
+	"github.com/my/repo/go_code/chapter11/customerInfo/service"
 )
 
 type customerView struct {

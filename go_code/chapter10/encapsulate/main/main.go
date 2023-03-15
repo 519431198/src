@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"go_code/chapter10/encapsulate/utils"
+	"github.com/my/repo/go_code/chapter10/encapsulate/utils"
 )
 
 func main() {

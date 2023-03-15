@@ -1,0 +1,23 @@
+global:
+  debug: true
+  log_level: debug
+  api_key: "abc123"
+
+# 数据库配置
+database:
+  host: "localhost"
+  port: "5432"
+  name: "mydatabase"
+  username: "myuser"
+  password: "mypassword"
+
+# 缓存配置
+cache:
+  host: "localhost"
+  port: "6379"
+  password: ""
+
+# 服务配置
+service:
+  name: "myservice"
+  port: 8080

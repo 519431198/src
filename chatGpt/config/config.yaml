@@ -1,0 +1,24 @@
+# ssh 连接信息
+ssh:
+  user: "root"
+  passwd: "123"
+  ip: "10.0.0.4"
+  port: "22"
+
+## 远程文件路径
+#remoteFilePath:
+#  remoteDir1: "/root/21"
+#  remoteDir2: "/root/21"
+#
+## 本地文件路径
+#localFilePath:
+#  localDir1: "/Users/wangyi/21"
+#  localDir2: "/Users/wangyi/22"
+
+Path:
+  FilePath1:
+    - remoteDir1: "/root/21"
+    - localDir1: "/Users/wangyi/21"
+  FilePath2:
+    - remoteDir1: "/root/22"
+    - localDir2: "/Users/wangyi/22"

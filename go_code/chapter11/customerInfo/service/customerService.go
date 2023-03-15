@@ -1,7 +1,7 @@
 package service
 
 import (
-	"go_code/chapter11/customerInfo/model"
+	"github.com/my/repo/go_code/chapter11/customerInfo/model"
 )
 
 // CustomerService 完成对 customerService 的操作,包括增删改查
