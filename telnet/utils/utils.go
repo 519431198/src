@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"bufio"
@@ -9,27 +9,6 @@ import (
 	"strings"
 	"time"
 )
-
-func main() {
-	// 设置服务器的IP地址和端口号
-	server := "192.168.200.12:12001"
-	// 连接到服务器
-	conn, err := net.DialTimeout("tcp", server, 10*time.Second)
-	if err != nil {
-		fmt.Println("无法连接到服务器: ", err)
-		os.Exit(1)
-	}
-	// 读取服务器的欢迎信息
-	//readResponse(conn)
-	// 发送用户名和密码进行身份验证
-	sendAuthentication(conn, "oms", "999")
-	// 读取异常号码文件
-	lines := phoneNum()
-	// 执行多个命令
-	executeCommands(conn, lines)
-	// 关闭连接
-	conn.Close()
-}
 
 func readResponse(conn net.Conn) {
 	// 创建一个缓冲区
@@ -65,7 +44,7 @@ func extractMessage(response string, str1 string, str2 string) string {
 	return message
 }
 
-func sendAuthentication(conn net.Conn, username string, password string) {
+func SendAuthentication(conn net.Conn, username string, password string) {
 	// 发送用户名
 	writeCommand(conn, username)
 	// 等待服务器响应
@@ -76,8 +55,9 @@ func sendAuthentication(conn net.Conn, username string, password string) {
 	readResponse(conn)
 }
 
-func executeCommands(conn net.Conn, commands []string) {
-	// 执行多个命令
+func ExecuteCommands(conn net.Conn) {
+	commands := phoneNum()
+	// 循环执行执行命令
 	for _, command := range commands {
 		writeCommand(conn, command)
 		// 等待服务器响应
