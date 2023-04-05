@@ -15,11 +15,11 @@ import (
 
 func main() {
 	req := Webhook{
-		AccessToken: "f9f7e29c56a678facf1cafcc7bdd5263a4bef01e4335dc97436cb131c33bd439",
-		Secret:      "SEC6d80d653ee3f110571b91c55320cb57f2ee89f9471317c46a6689570adb13c2a",
+		AccessToken: "0b8e5c9299cc7ca77cc863381e8b5949c648a4804ae3993b046e3ee4ab33b70d",
+		Secret:      "SEC4b3633a968fe18595a855597c2be8315917e26b08b2eafe2f82f4d40314271eb",
 		//艾特所有人需要两个同时开启
-		//EnableAt: true, // 开启艾特
-		//AtAll:       true, // 艾特所有人
+		EnableAt: true, // 开启艾特
+		AtAll:    true, // 艾特所有人
 	}
 	_ = req.SendMessage("今天天气真好!", "18326147303")
 }

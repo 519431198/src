@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-redis/redis v6.15.9+incompatible // indirect
+	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20210107165309-348f09dbbbc0 // indirect
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/nxadm/tail v1.4.8 // indirect
