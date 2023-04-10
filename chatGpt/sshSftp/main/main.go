@@ -159,6 +159,7 @@ func main() {
 	// 下载符合要求的文件并保存到本地路径
 	for _, name := range filename {
 		//fmt.Println(name)
+		// yes
 		download(sftpClient, remoteDir+"/"+name, localPath+"/"+name)
 	}
 }
