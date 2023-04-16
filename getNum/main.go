@@ -93,7 +93,7 @@ func judge(websiteData []byte) []string {
 // 正则匹配获取指定数据,拼接为 sql 语句
 func province(res []string, pro, city string) {
 	// 获取地市区号，邮政编码
-	postalCode := getWebsiteData(url + strings.TrimLeft(res[1], ">"))
+	postalCode := getWebsiteData(url + strings.TrimLeft(res[0], ">"))
 	// 匹配表达式
 	ruler := ">\\d{3,6}<"
 	// 匹配规则
@@ -108,7 +108,7 @@ func province(res []string, pro, city string) {
 	str := "INSERT INTO `bill`.`tb_mobile_number_section` (`id`,`number_section`,`operator_type`,`operator_name`,`virtual_operator_name`,`province`,`city`,`district`,`directly_city`,`card_type`,`area_code`,`post_code`,`is_display_redirnumber_info`) VALUES ("
 	for _, v := range res {
 		// sql 语句拼接
-		sqlStr := fmt.Sprintf("\n%s'%s',%s,'非虚拟运营商','移动',NULL,'%s','%s市',NULL,0,'中国移动',%s,%s,0);", str, strings.TrimLeft(v, ">"), strings.TrimLeft(v, ">"), pro, city, cityNum, postNum)
+		sqlStr := fmt.Sprintf("\n%s'%s',%s,'非虚拟运营商','联通',NULL,'%s','%s市',NULL,0,'中国联通',%s,%s,0);", str, strings.TrimLeft(v, ">"), strings.TrimLeft(v, ">"), pro, city, cityNum, postNum)
 		err := execSql(sqlStr)
 		if err != nil {
 			continue
@@ -147,6 +147,7 @@ func main() {
 		for _, city := range cities {
 			fmt.Println(city)
 			numbers := getWebsiteData(url + city + config.NumberSegment)
+			// fmt.Println(string(numbers))
 			res := judge(numbers)
 			if len(res) == 0 {
 				continue
