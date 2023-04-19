@@ -150,6 +150,7 @@ func main() {
 			// fmt.Println(string(numbers))
 			res := judge(numbers)
 			if len(res) == 0 {
+				fmt.Printf("%s市没有 %s 子号段或今天流量异常已禁止访问", city, config.NumberSegment)
 				continue
 			}
 			province(res, provinceName, city)

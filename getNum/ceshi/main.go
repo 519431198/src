@@ -49,8 +49,8 @@ func initDB() {
 	if err != nil {
 		panic(err.Error())
 	}
-	db.SetMaxOpenConns(1000)
-	db.SetMaxIdleConns(500)
+	db.SetMaxOpenConns(200)
+	db.SetMaxIdleConns(100)
 
 	// 检查连接池是否正常工作
 	err = db.Ping()
@@ -79,21 +79,11 @@ func getWebsiteData(url string) []byte {
 	return websiteData
 }
 
-// 需要对网站返回数据进行判断,将数据进行处理
-func judge(websiteData []byte) []string {
-	// 匹配表达式
-	ruler := fmt.Sprintf(">%s\\d{4}", config.NumberSegment)
-	// 匹配规则
-	pattern1 := regexp.MustCompile(ruler)
-	// 匹配的结果
-	numbers := pattern1.FindAllString(string(websiteData), -1)
-	return numbers
-}
-
 // 正则匹配获取指定数据,拼接为 sql 语句
-func province(res []string, pro, city string) {
+func province(num, pro, city string, operator []string) {
 	// 获取地市区号，邮政编码
-	postalCode := getWebsiteData(url + strings.TrimLeft(res[1], ">"))
+	//postalCode := getWebsiteData(url + strings.TrimLeft(res[0], ">"))
+	postalCode := getWebsiteData(url + num)
 	// 匹配表达式
 	ruler := ">\\d{3,6}<"
 	// 匹配规则
@@ -105,14 +95,16 @@ func province(res []string, pro, city string) {
 	postNum := fmt.Sprintf("%s", strings.Trim(res2[len(res2)-1], "><"))
 	//fmt.Println("号段为:")
 	// sql 部分语句
-	str := "INSERT INTO `bill`.`tb_mobile_number_section` (`id`,`number_section`,`operator_type`,`operator_name`,`virtual_operator_name`,`province`,`city`,`district`,`directly_city`,`card_type`,`area_code`,`post_code`,`is_display_redirnumber_info`) VALUES ("
-	for _, v := range res {
-		// sql 语句拼接
-		sqlStr := fmt.Sprintf("\n%s'%s',%s,'非虚拟运营商','移动',NULL,'%s','%s市',NULL,0,'中国移动',%s,%s,0);", str, strings.TrimLeft(v, ">"), strings.TrimLeft(v, ">"), pro, city, cityNum, postNum)
-		err := execSql(sqlStr)
-		if err != nil {
-			continue
-		}
+	str := "INSERT INTO `bill`.`tb_mobile_number_section` (`id`,`number_section`,`operator_type`,`operator_name`," +
+		"`virtual_operator_name`,`province`,`city`,`district`,`directly_city`,`card_type`,`area_code`," +
+		"`post_code`,`is_display_redirnumber_info`) VALUES ("
+	// sql 语句拼接
+	sqlStr := fmt.Sprintf("\n%s%s,%s,'%s','%s',NULL,'%s省','%s市',NULL,0,'中国%s',%s,%s,0);",
+		str, num, num, operator[1], operator[0], pro, city, operator[0], cityNum, postNum)
+	fmt.Println(sqlStr)
+	err := execSql(sqlStr)
+	if err != nil {
+		fmt.Println(err)
 	}
 }
 
@@ -133,29 +125,38 @@ func execSql(sqlOrder string) (err error) {
 	return err
 }
 
+func address(num string) (provinceName, cityName, err string) {
+	websiteData := getWebsiteData(url + num)
+	// 匹配指定信息
+	re := regexp.MustCompile("<td>号段你归属地</td>\\s+<td>\\s*([\\s\\S]*?)\\s*</td>|404")
+	matches := re.FindStringSubmatch(string(websiteData))
+	if matches[0] == "404" {
+		err = fmt.Sprintf("没有%s号段信息", num)
+	} else {
+		// 将多余部分替换删除
+		replace := strings.NewReplacer(" ", "", ".*>", "", "号段你归属地", "", "<td>", "", "</td>", "", "<a href=\"/prefix/", "")
+		s := replace.Replace(matches[0])
+		// 取出号码归属地省,市
+		re = regexp.MustCompile(".*1")
+		result := re.FindAllString(s, 2)
+		provinceName = strings.Replace(result[0], "1", "", -1)
+		cityName = strings.Replace(result[1], "1", "", -1)
+	}
+	return provinceName, cityName, err
+}
+
 func main() {
 	// 读取配置文件
 	readConfig()
-
 	// 初始化连接池
 	initDB()
-
-	// 打印配置信息
-	for provinceName, cities := range config.Provinces {
-		fmt.Printf("%s正在入库\n", provinceName)
-		// cities 为城市集合,city 为单个城市
-		for _, city := range cities {
-			fmt.Println(city)
-			numbers := getWebsiteData(url + city + config.NumberSegment)
-			res := judge(numbers)
-			if len(res) == 0 {
-				continue
-			}
-			province(res, provinceName, city)
-			fmt.Printf("%s入库完毕,等待 5 秒\n", city)
-			//等待 5s 是因为频繁请求会禁止访问(大流量会禁止当天访问)
-			time.Sleep(time.Second * 5)
+	operator := []string{"电信", "虚拟运营商"}
+	num := []string{"1655726"}
+	for _, num := range num {
+		provinceName, cityName, err := address(num)
+		if err != "" {
+			continue
 		}
-		fmt.Printf("%s入库完毕\n\n", provinceName)
+		province(num, provinceName, cityName, operator)
 	}
 }
