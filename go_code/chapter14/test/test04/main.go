@@ -16,7 +16,7 @@ func PathExits(path string) (bool, error) {
 	return false, nil
 }
 func main() {
-	file1Path := "/Users/wangyi/test/test3.txt"
+	file1Path := "/Users/wangyi/utils/test3.txt"
 	//判断文件是否存在
 	exits, err := PathExits(file1Path)
 	if err == nil {

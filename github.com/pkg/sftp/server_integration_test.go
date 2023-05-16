@@ -2,7 +2,7 @@ package sftp
 
 // sftp server integration tests
 // enable with -integration
-// example invokation (darwin): gofmt -w `find . -name \*.go` && (cd server_standalone/ ; go build -tags debug) && go test -tags debug github.com/pkg/sftp -integration -v -sftp /usr/libexec/sftp-server -run ServerCompareSubsystems
+// example invokation (darwin): gofmt -w `find . -name \*.go` && (cd server_standalone/ ; go build -tags debug) && go utils -tags debug github.com/pkg/sftp -integration -v -sftp /usr/libexec/sftp-server -run ServerCompareSubsystems
 
 import (
 	"bytes"
@@ -59,13 +59,13 @@ func TestMain(m *testing.M) {
 
 func skipIfWindows(t testing.TB) {
 	if runtime.GOOS == "windows" {
-		t.Skip("skipping test on windows")
+		t.Skip("skipping utils on windows")
 	}
 }
 
 func skipIfPlan9(t testing.TB) {
 	if runtime.GOOS == "plan9" {
-		t.Skip("skipping test on plan9")
+		t.Skip("skipping utils on plan9")
 	}
 }
 
@@ -330,7 +330,7 @@ func (chsvr *sshSessionChannelServer) handleSubsystem(req *ssh.Request) error {
 	req.Reply(true, nil)
 
 	if !chsvr.svr.useSubsystem {
-		// use the openssh sftp server backend; this is to test the ssh code, not the sftp code,
+		// use the openssh sftp server backend; this is to utils the ssh code, not the sftp code,
 		// or is used for comparison between our sftp subsystem and the openssh sftp subsystem
 		cmd := exec.Command(*testSftp, "-e", "-l", "DEBUG") // log to stderr
 		cmd.Stdin = chsvr.ch
@@ -361,12 +361,12 @@ func (chsvr *sshSessionChannelServer) handleSubsystem(req *ssh.Request) error {
 	return exitStatusErr
 }
 
-// starts an ssh server to test. returns: host string and port
+// starts an ssh server to utils. returns: host string and port
 func testServer(t *testing.T, useSubsystem bool, readonly bool) (func(), string, int) {
 	t.Helper()
 
 	if !*testIntegration {
-		t.Skip("skipping integration test")
+		t.Skip("skipping integration utils")
 	}
 
 	listener, err := net.Listen("tcp", "127.0.0.1:0")
@@ -424,7 +424,7 @@ func makeDummyKey() (string, error) {
 		return "", fmt.Errorf("cannot marshal key: %w", err)
 	}
 	block := &pem.Block{Type: "EC PRIVATE KEY", Bytes: der}
-	f, err := ioutil.TempFile("", "sftp-test-key-")
+	f, err := ioutil.TempFile("", "sftp-utils-key-")
 	if err != nil {
 		return "", fmt.Errorf("cannot create temp file: %w", err)
 	}
@@ -464,7 +464,7 @@ func (e *execError) Cause() error {
 }
 
 func runSftpClient(t *testing.T, script string, path string, host string, port int) (string, error) {
-	// if sftp client binary is unavailable, skip test
+	// if sftp client binary is unavailable, skip utils
 	if _, err := os.Stat(*testSftpClientBin); err != nil {
 		t.Skip("sftp client binary unavailable")
 	}

@@ -14,7 +14,7 @@ func main() {
 		Skill: "牛魔拳",
 	}
 	str := monster.Store()
-	var filePath = "/Users/wangyi/test/test.txt"
+	var filePath = "/Users/wangyi/utils/utils.txt"
 	file, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		return

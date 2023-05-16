@@ -51,7 +51,7 @@ type orderedPair struct {
 	out orderedResponse
 }
 
-// basic test
+// basic utils
 var ttable1 = []pair{
 	{fake(0, 0), fake(0, 0)},
 	{fake(1, 1), fake(1, 1)},

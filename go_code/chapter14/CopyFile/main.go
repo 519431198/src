@@ -43,9 +43,9 @@ func CopyFile(dstFileName string, srcFileName string) (written int64, err error)
 
 func main() {
 	//注意 Copy 函数是 io 包提供的
-	//将/Users/wangyi/test/test.txt 文件拷贝到 /Users/wangyi/test1 目录下
+	//将/Users/wangyi/utils/utils.txt 文件拷贝到 /Users/wangyi/test1 目录下
 
-	srcFile := "/Users/wangyi/test/test.txt"
+	srcFile := "/Users/wangyi/utils/utils.txt"
 	dstFile := "/Users/wangyi/test1/aaa.txt"
 
 	_, err := CopyFile(dstFile, srcFile)

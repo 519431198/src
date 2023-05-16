@@ -545,31 +545,31 @@ func TestSSHFxpOpenPackethasPflags(t *testing.T) {
 		ok        bool
 	}{
 		{
-			desc:      "have read, test against write",
+			desc:      "have read, utils against write",
 			haveFlags: sshFxfRead,
 			testFlags: []uint32{sshFxfWrite},
 			ok:        false,
 		},
 		{
-			desc:      "have write, test against read",
+			desc:      "have write, utils against read",
 			haveFlags: sshFxfWrite,
 			testFlags: []uint32{sshFxfRead},
 			ok:        false,
 		},
 		{
-			desc:      "have read+write, test against read",
+			desc:      "have read+write, utils against read",
 			haveFlags: sshFxfRead | sshFxfWrite,
 			testFlags: []uint32{sshFxfRead},
 			ok:        true,
 		},
 		{
-			desc:      "have read+write, test against write",
+			desc:      "have read+write, utils against write",
 			haveFlags: sshFxfRead | sshFxfWrite,
 			testFlags: []uint32{sshFxfWrite},
 			ok:        true,
 		},
 		{
-			desc:      "have read+write, test against read+write",
+			desc:      "have read+write, utils against read+write",
 			haveFlags: sshFxfRead | sshFxfWrite,
 			testFlags: []uint32{sshFxfRead, sshFxfWrite},
 			ok:        true,
@@ -610,7 +610,7 @@ func BenchmarkMarshalInit(b *testing.B) {
 func BenchmarkMarshalOpen(b *testing.B) {
 	benchMarshal(b, &sshFxpOpenPacket{
 		ID:     1,
-		Path:   "/home/test/some/random/path",
+		Path:   "/home/utils/some/random/path",
 		Pflags: flags(os.O_RDONLY),
 	})
 }

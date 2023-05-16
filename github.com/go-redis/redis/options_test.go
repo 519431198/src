@@ -96,7 +96,7 @@ func TestParseURL(t *testing.T) {
 }
 
 // Test ReadTimeout option initialization, including special values -1 and 0.
-// And also test behaviour of WriteTimeout option, when it is not explicitly set and use
+// And also utils behaviour of WriteTimeout option, when it is not explicitly set and use
 // ReadTimeout value.
 func TestReadTimeoutOptions(t *testing.T) {
 	testDataInputOutputMap := map[time.Duration]time.Duration{

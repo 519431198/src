@@ -89,7 +89,7 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should BgRewriteAOF", func() {
-			Skip("flaky test")
+			Skip("flaky utils")
 
 			val, err := client.BgRewriteAOF().Result()
 			Expect(err).NotTo(HaveOccurred())
@@ -97,7 +97,7 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should BgSave", func() {
-			Skip("flaky test")
+			Skip("flaky utils")
 
 			// workaround for "ERR Can't BGSAVE while AOF log1 rewriting is in progress"
 			Eventually(func() string {
@@ -112,8 +112,8 @@ var _ = Describe("Commands", func() {
 		})
 
 		It("should ClientKillByFilter", func() {
-			r := client.ClientKillByFilter("TYPE", "test")
-			Expect(r.Err()).To(MatchError("ERR Unknown client type 'test'"))
+			r := client.ClientKillByFilter("TYPE", "utils")
+			Expect(r.Err()).To(MatchError("ERR Unknown client type 'utils'"))
 			Expect(r.Val()).To(Equal(int64(0)))
 		})
 

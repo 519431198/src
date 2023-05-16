@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-//函数
+// 函数
 func sayHello() {
 	for i := 0; i < 10; i++ {
 		time.Sleep(time.Second)
@@ -22,7 +22,7 @@ func main() {
 	//defer + recover捕获 panic
 	//defer func() {
 	//	if err := recover(); err != nil {
-	//		fmt.Println("test() 发生错误")
+	//		fmt.Println("utils() 发生错误")
 	//	}
 	//}()
 

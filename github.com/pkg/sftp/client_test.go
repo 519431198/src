@@ -62,7 +62,7 @@ func TestNormaliseError(t *testing.T) {
 	for _, tt := range tests {
 		got := normaliseError(tt.err)
 		if got != tt.want {
-			t.Errorf("normaliseError(%#v), test %q\n- want: %#v\n-  got: %#v",
+			t.Errorf("normaliseError(%#v), utils %q\n- want: %#v\n-  got: %#v",
 				tt.err, tt.desc, tt.want, got)
 		}
 	}
@@ -83,7 +83,7 @@ func TestFlags(t *testing.T) {
 	for i, tt := range flagsTests {
 		got := flags(tt.flags)
 		if got != tt.want {
-			t.Errorf("test %v: flags(%x): want: %x, got: %x", i, tt.flags, tt.want, got)
+			t.Errorf("utils %v: flags(%x): want: %x, got: %x", i, tt.flags, tt.want, got)
 		}
 	}
 }

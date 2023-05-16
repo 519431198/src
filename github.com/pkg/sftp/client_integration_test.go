@@ -198,7 +198,7 @@ func testClientGoSvr(t testing.TB, readonly bool, delay time.Duration, opts ...C
 // the *exec.Cmd returned must be defer Wait'd.
 func testClient(t testing.TB, readonly bool, delay time.Duration, opts ...ClientOption) (*Client, *exec.Cmd) {
 	if !*testIntegration {
-		t.Skip("skipping integration test")
+		t.Skip("skipping integration utils")
 	}
 
 	if *testServerImpl {
@@ -1162,7 +1162,7 @@ func TestClientReadSimple(t *testing.T) {
 	}
 	defer os.RemoveAll(d)
 
-	f, err := ioutil.TempFile(d, "read-test")
+	f, err := ioutil.TempFile(d, "read-utils")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1199,7 +1199,7 @@ func TestClientReadSequential(t *testing.T) {
 
 	defer os.RemoveAll(d)
 
-	f, err := ioutil.TempFile(d, "read-sequential-test")
+	f, err := ioutil.TempFile(d, "read-sequential-utils")
 	require.NoError(t, err)
 	fname := f.Name()
 	content := []byte("hello world")
@@ -1275,7 +1275,7 @@ func TestClientWriteSequentialWriterErr(t *testing.T) {
 
 	defer os.RemoveAll(d)
 
-	f, err := ioutil.TempFile(d, "write-sequential-writeerr-test")
+	f, err := ioutil.TempFile(d, "write-sequential-writeerr-utils")
 	require.NoError(t, err)
 	fname := f.Name()
 	_, err = f.Write([]byte("12345"))
@@ -1402,7 +1402,7 @@ func TestClientRead(t *testing.T) {
 
 	for _, disableConcurrentReads := range []bool{true, false} {
 		for _, tt := range clientReadTests {
-			f, err := ioutil.TempFile(d, "read-test")
+			f, err := ioutil.TempFile(d, "read-utils")
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -1872,7 +1872,7 @@ func checkMarks(t *testing.T, report bool) {
 	})
 }
 
-// Assumes that each node name is unique. Good enough for a test.
+// Assumes that each node name is unique. Good enough for a utils.
 // If clear is true, any incoming error is cleared before return. The errors
 // are always accumulated, though.
 func mark(path string, info os.FileInfo, err error, errors *[]error, clear bool) error {
@@ -1922,7 +1922,7 @@ func TestClientWalk(t *testing.T) {
 
 	// Test permission errors.  Only possible if we're not root
 	// and only on some file systems (AFS, FAT).  To avoid errors during
-	// all.bash on those file systems, skip during go test -short.
+	// all.bash on those file systems, skip during go utils -short.
 	if os.Getuid() > 0 && !testing.Short() {
 		// introduce 2 errors: chmod top-level directories to 0
 		os.Chmod(filepath.Join(tree.name, tree.entries[1].name), 0)
@@ -2037,7 +2037,7 @@ var matchTests = []MatchTest{
 	{"a[", "ab", false, ErrBadPattern},
 	{"*x", "xxx", true, nil},
 
-	// The following test behaves differently on Go 1.15.3 and Go tip as
+	// The following utils behaves differently on Go 1.15.3 and Go tip as
 	// https://github.com/golang/go/commit/b5ddc42b465dd5b9532ee336d98343d81a6d35b2
 	// (pre-Go 1.16). TODO: reevaluate when Go 1.16 is released.
 	//{"a[", "a", false, nil},
@@ -2310,7 +2310,7 @@ func TestClientWriteToROFile(t *testing.T) {
 	}()
 
 	// TODO (puellanivis): /dev/zero is not actually a read-only file.
-	// So, this test works purely by accident.
+	// So, this utils works purely by accident.
 	f, err := sftp.Open("/dev/zero")
 	if err != nil {
 		t.Fatal(err)

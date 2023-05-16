@@ -9,11 +9,11 @@ import (
 )
 
 func main() {
-	//将/Users/wangyi/test/test.txt 文件内容导入到 test1.txt
-	//首先将 test.txt 内容读取到内存
+	//将/Users/wangyi/utils/utils.txt 文件内容导入到 test1.txt
+	//首先将 utils.txt 内容读取到内存
 	//将读取到的内容写入到test1.txt
-	file1Path := "/Users/wangyi/test/test.txt"
-	file2Path := "/Users/wangyi/test/test1.txt"
+	file1Path := "/Users/wangyi/utils/utils.txt"
+	file2Path := "/Users/wangyi/utils/test1.txt"
 
 	data, err := ioutil.ReadFile(file1Path)
 	if err != nil {

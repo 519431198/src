@@ -14,10 +14,10 @@ func main() {
 	}
 }
 
-//编写一个函数,每隔一秒输出"hello,world"
+// 编写一个函数,每隔一秒输出"hello,world"
 func test() {
 	for i := 1; i <= 10; i++ {
-		fmt.Println("test() hello,world!" + strconv.Itoa(i))
+		fmt.Println("utils() hello,world!" + strconv.Itoa(i))
 		time.Sleep(time.Second)
 	}
 }

@@ -93,6 +93,6 @@ func main() {
 		-rw-r--r--  1 root root     125 Feb 13 22:25 dump.rdb
 		-rw-r--r--  1 root root     326 Feb 25  2022 hostnameIp.sh
 		-rw-r--r--  1 root root 2489670 Jan 12 21:09 redis-6.2.8.tar.gz
-		-rw-r--r--  1 root root       0 Feb 28  2022 test.txt
+		-rw-r--r--  1 root root       0 Feb 28  2022 utils.txt
 	*/
 }

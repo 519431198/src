@@ -7,7 +7,7 @@ import (
 
 func main() {
 	fmt.Println("嗨客网(www.haicoder.net)")
-	fileName := "/Users/wangyi/test/test.txt"
+	fileName := "/Users/wangyi/utils/utils.txt"
 	file, err := os.Open(fileName)
 	if err != nil {
 		fmt.Println("Open file err =", err)

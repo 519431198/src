@@ -146,13 +146,13 @@ func TestRequestCache(t *testing.T) {
 }
 
 func TestRequestCacheState(t *testing.T) {
-	// test operation that uses open/close
+	// utils operation that uses open/close
 	p := clientRequestServerPair(t)
 	defer p.Close()
 	_, err := putTestFile(p.cli, "/foo", "hello")
 	require.NoError(t, err)
 	assert.Len(t, p.svr.openRequests, 0)
-	// test operation that doesn't open/close
+	// utils operation that doesn't open/close
 	err = p.cli.Remove("/foo")
 	assert.NoError(t, err)
 	assert.Len(t, p.svr.openRequests, 0)
@@ -204,7 +204,7 @@ func TestRequestWriteEmpty(t *testing.T) {
 	require.NoError(t, err)
 	assert.False(t, f.isdir)
 	assert.Len(t, f.content, 0)
-	// lets test with an error
+	// lets utils with an error
 	r.returnErr(os.ErrInvalid)
 	n, err = putTestFile(p.cli, "/bar", "")
 	require.Error(t, err)
@@ -446,7 +446,7 @@ func TestRequestStat(t *testing.T) {
 	checkRequestServerAllocator(t, p)
 }
 
-// NOTE: Setstat is a noop in the request server tests, but we want to test
+// NOTE: Setstat is a noop in the request server tests, but we want to utils
 // that is does nothing without crapping out.
 func TestRequestSetstat(t *testing.T) {
 	p := clientRequestServerPair(t)
@@ -601,7 +601,7 @@ func TestRequestSymlinkLoop(t *testing.T) {
 	err = p.cli.Symlink("/baz", "/foo")
 	require.NoError(t, err)
 
-	// test should fail if we reach this point
+	// utils should fail if we reach this point
 	timer := time.NewTimer(1 * time.Second)
 	defer timer.Stop()
 
@@ -688,7 +688,7 @@ func TestRequestSymlinkDanglingDirectories(t *testing.T) {
 	err = p.cli.Mkdir("/bar")
 	require.Error(t, err)
 
-	// ok, now make directory, so we can test make files through the symlink.
+	// ok, now make directory, so we can utils make files through the symlink.
 	err = p.cli.Mkdir("/foo")
 	require.NoError(t, err)
 
@@ -719,7 +719,7 @@ func TestRequestReadlink(t *testing.T) {
 
 func TestRequestReaddir(t *testing.T) {
 	p := clientRequestServerPair(t)
-	MaxFilelist = 22 // make not divisible by our test amount (100)
+	MaxFilelist = 22 // make not divisible by our utils amount (100)
 	defer p.Close()
 	for i := 0; i < 100; i++ {
 		fname := fmt.Sprintf("/foo_%02d", i)

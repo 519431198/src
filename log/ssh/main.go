@@ -56,7 +56,7 @@ func main() {
 		此外,该方法不能执行交互式命令,仅仅能执行查询类命令
 	*/
 	//定义需要执行的操作
-	shell := "cd /root;cat test.txt"
+	shell := "cd /root;cat utils.txt"
 	//sshSession.CombinedOutput执行命令后返回的是一个切片,需要进行 string() 转换类型才能查看
 	output, err := sshSession.CombinedOutput(shell)
 	if err != nil {

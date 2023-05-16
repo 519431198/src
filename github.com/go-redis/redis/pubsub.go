@@ -395,7 +395,7 @@ func (c *PubSub) ReceiveMessage() (*Message, error) {
 }
 
 // Channel returns a Go channel for concurrently receiving messages.
-// It periodically sends Ping messages to test connection health.
+// It periodically sends Ping messages to utils connection health.
 // The channel is closed with PubSub. Receive* APIs can not be used
 // after channel is created.
 //

@@ -7,10 +7,10 @@ import (
 )
 
 func main() {
-	// /Users/wangyi/test
+	// /Users/wangyi/utils
 
 	//创建一个新文件,写入 5 句"Hello , Garden"
-	filePath := "/Users/wangyi/test/test.txt"
+	filePath := "/Users/wangyi/utils/utils.txt"
 	file, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Printf("open file err=%v", err)

@@ -58,7 +58,7 @@ type fakefile [10]byte
 
 var filecontents = []byte("file-data.")
 
-// XXX need new for creating test requests that supports Open-ing
+// XXX need new for creating utils requests that supports Open-ing
 func testRequest(method string) *Request {
 	var flags uint32
 	switch method {
@@ -107,7 +107,7 @@ func (h Handlers) getOutString() string {
 	return handler.output.(*fakefile).string()
 }
 
-var errTest = errors.New("test error")
+var errTest = errors.New("utils error")
 
 func (h *Handlers) returnError(err error) {
 	handler := h.FilePut.(*testHandler)
@@ -124,7 +124,7 @@ func checkOkStatus(t *testing.T, p interface{}) {
 		"sshFxpStatusPacket not OK\n", pkt.StatusError.msg)
 }
 
-// fake/test packet
+// fake/utils packet
 type fakePacket struct {
 	myid   uint32
 	handle string
@@ -145,7 +145,7 @@ func TestRequestGet(t *testing.T) {
 	request := testRequest("Get")
 	pkt := fakePacket{myid: 1}
 	request.open(handlers, pkt)
-	// req.length is 5, so we test reads in 5 byte chunks
+	// req.length is 5, so we utils reads in 5 byte chunks
 	for i, txt := range []string{"file-", "data."} {
 		pkt := &sshFxpReadPacket{ID: uint32(i), Handle: "a",
 			Offset: uint64(i * 5), Len: 5}

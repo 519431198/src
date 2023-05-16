@@ -4,7 +4,7 @@ import "fmt"
 
 func test(n1 int) {
 	n1 = n1 + 1
-	fmt.Println("test() n1=", n1)
+	fmt.Println("utils() n1=", n1)
 }
 
 func num(n1 int, n2 int) (int, int) {

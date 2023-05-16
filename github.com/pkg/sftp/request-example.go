@@ -20,7 +20,7 @@ const maxSymlinkFollows = 5
 
 var errTooManySymlinks = errors.New("too many symbolic links")
 
-// InMemHandler returns a Hanlders object with the test handlers.
+// InMemHandler returns a Hanlders object with the utils handlers.
 func InMemHandler() Handlers {
 	root := &root{
 		rootFile: &memFile{name: "/", modtime: time.Now(), isdir: true},

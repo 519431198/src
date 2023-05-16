@@ -13,6 +13,6 @@ func init() {
 var age = test()
 
 func test() int {
-	fmt.Println("test()...")
+	fmt.Println("utils()...")
 	return 90
 }

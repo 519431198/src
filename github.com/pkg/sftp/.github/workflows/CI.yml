@@ -7,7 +7,7 @@ on:
 
 jobs:
   run-tests:
-    name: Run test cases
+    name: Run utils cases
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

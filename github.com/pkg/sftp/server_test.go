@@ -68,7 +68,7 @@ func checkServerAllocator(t *testing.T, server *Server) {
 	checkAllocatorAfterServerClose(t, server.pktMgr.alloc)
 }
 
-// test that errors are sent back when we request an invalid extended packet operation
+// utils that errors are sent back when we request an invalid extended packet operation
 // this validates the following rfc draft is followed https://tools.ietf.org/html/draft-ietf-secsh-filexfer-extensions-00
 func TestInvalidExtendedPacket(t *testing.T) {
 	client, server := clientServerPair(t)
@@ -95,7 +95,7 @@ func TestInvalidExtendedPacket(t *testing.T) {
 	checkServerAllocator(t, server)
 }
 
-// test that server handles concurrent requests correctly
+// utils that server handles concurrent requests correctly
 func TestConcurrentRequests(t *testing.T) {
 	skipIfWindows(t)
 	filename := "/etc/passwd"
@@ -158,7 +158,7 @@ func TestStatusFromError(t *testing.T) {
 	}
 }
 
-// This was written to test a race b/w open immediately followed by a stat.
+// This was written to utils a race b/w open immediately followed by a stat.
 // Previous to this the Open would trigger the use of a worker pool, then the
 // stat packet would come in an hit the pool and return faster than the open
 // (returning a file-not-found error).
