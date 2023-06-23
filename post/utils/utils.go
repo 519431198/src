@@ -44,8 +44,8 @@ func Handle(name, BeginTime, EndTime string, file *os.File) {
 		Account: name,
 		//AreaCode:  "XY100002",
 		Period:    1,
-		BeginTime: "20230514",
-		EndTime:   "20230515",
+		BeginTime: BeginTime,
+		EndTime:   EndTime,
 	}
 	requestBodyBytes, err := json.Marshal(requestBody)
 	if err != nil {
@@ -86,15 +86,8 @@ func Handle(name, BeginTime, EndTime string, file *os.File) {
 			fmt.Println("解析失败", err)
 		}
 		beginTime := b.Format("2006-01-02")
-		e, err := time.Parse("20060102", requestBody.EndTime)
-		if err != nil {
-			fmt.Println("时间转换失败", err)
-		}
-		endTime := e.Format("2006-01-02")
-		//endTime := e.Format("2006-01-02")
-		_, err = file.Write([]byte(fmt.Sprintf("\n%v,%v,%v,%v,%v,%v,%v,%v,%v,%v,%v,%v", beginTime,
-			endTime, fee.AreaCode, fee.AreaName, fee.Account, fee.AccountName, fee.AgentAccount, fee.CdrCount,
-			fmt.Sprintf("%0.3f", fee.TotalFee), fee.TotalTime, fee.TotalSuiteFee, fee.TotalSuiteFeeTime)))
+		_, err = file.Write([]byte(fmt.Sprintf("\n%v,%v,%v,%v,%v,%v,%v", beginTime, fee.AreaCode,
+			fee.Account, fee.AccountName, fee.CdrCount, fmt.Sprintf("%0.3f", fee.TotalFee), fee.TotalTime/6)))
 		//fmt.Printf("\n%v,%v,%v,%v,%v,%v,%v,%v,%v,%v", beginTime,
 		//	endTime, fee.AreaCode, fee.Account, fee.AccountName, fee.CdrCount,
 		//	fmt.Sprintf("%0.3f", fee.TotalFee), fee.TotalTime, fee.TotalSuiteFee, fee.TotalSuiteFeeTime)

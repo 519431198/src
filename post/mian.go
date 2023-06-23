@@ -26,6 +26,7 @@ func (config *config) name() (names []string) {
 }
 
 func openFile() (file *os.File) {
+	//file, err := os.OpenFile("/Users/wangyi/22/data.csv", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	file, err := os.OpenFile("/code/bill_total/vos.csv", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		fmt.Println()
@@ -36,7 +37,7 @@ func openFile() (file *os.File) {
 func main() {
 	file := openFile()
 	//_, err := file.Write([]byte("beginTime(起始时间),endTime(终止时间),areaCode(地区前缀),account(账户号码),accountName(账户名称),cdrCount(话单总计),totalFee(费用总计),totalTime(计费时长总计--秒),totalSuiteFee(套餐费用总计),totalSuiteFeeTime(套餐赠送时长总计)"))
-	_, err := file.Write([]byte("起始时间,终止时间,地区前缀,账户号码,账户名称,话单总计,费用总计,计费时长总计--秒,套餐费用总计,套餐赠送时长总计"))
+	_, err := file.Write([]byte("日期,地区前缀,账户号码,账户名称,接通数,费用总计,时长(6秒数)"))
 	if err != nil {
 		fmt.Println("写入标题失败")
 	}
@@ -48,9 +49,10 @@ func main() {
 	// 获取前一天日期
 	b := now.AddDate(0, 0, -1)
 	BeginTime := b.Format("20060102")
+
+	//fmt.Println(BeginTime, EndTime)
 	// 循环读取 A 路账户
 	for _, name := range names {
 		utils.Handle(name, BeginTime, EndTime, file)
 	}
-	//fmt.Println("写入完成!")
 }

@@ -17,7 +17,7 @@ type client struct {
 
 func main() {
 	cli := client{
-		server: "192.168.200.12",
+		server: "192.168.200.12:12001",
 		user:   "oms",
 		passwd: "999",
 	}

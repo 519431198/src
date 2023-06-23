@@ -20,7 +20,7 @@ type Handlers struct {
 	FileList FileLister
 }
 
-// RequestServer abstracts the sftp protocol with an http request-like protocol
+// RequestServer abstracts the sftp protocol with an httpDemo01 request-like protocol
 type RequestServer struct {
 	Handlers Handlers
 

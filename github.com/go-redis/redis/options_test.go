@@ -50,7 +50,7 @@ func TestParseURL(t *testing.T) {
 		{
 			"http://google.com",
 			"",
-			0, false, errors.New("invalid redis-set URL scheme: http"),
+			0, false, errors.New("invalid redis-set URL scheme: httpDemo01"),
 		},
 		{
 			"redis-set://localhost/1/2/3/4",

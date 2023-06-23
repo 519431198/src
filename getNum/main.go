@@ -66,7 +66,7 @@ func getWebsiteData(url string) []byte {
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
-	// 创建 http 链接
+	// 创建 httpDemo01 链接
 	client := &http.Client{Transport: tr}
 	// 客户端请求网站
 	resp, err := client.Get(url)
