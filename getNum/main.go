@@ -18,7 +18,7 @@ import (
 var config provinces
 
 // 定义 url 常量
-const url = "https://shoujihao.uutool.cn/prefix/"
+const url = "https://shoujihao.uutool.cn/no/"
 
 // 定义一个省结构体
 type provinces struct {
@@ -101,19 +101,20 @@ func province(res []string, pro, city string) {
 	res2 := pattern2.FindAllString(string(postalCode), -1)
 	// 区号
 	cityNum := fmt.Sprintf("%s", strings.TrimLeft(strings.Trim(res2[len(res2)-2], "><"), "0"))
+	fmt.Printf(cityNum)
 	// 邮编
-	postNum := fmt.Sprintf("%s", strings.Trim(res2[len(res2)-1], "><"))
+	//postNum := fmt.Sprintf("%s", strings.Trim(res2[len(res2)-1], "><"))
 	//fmt.Println("号段为:")
 	// sql 部分语句
-	str := "INSERT INTO `bill`.`tb_mobile_number_section` (`id`,`number_section`,`operator_type`,`operator_name`,`virtual_operator_name`,`province`,`city`,`district`,`directly_city`,`card_type`,`area_code`,`post_code`,`is_display_redirnumber_info`) VALUES ("
-	for _, v := range res {
-		// sql 语句拼接
-		sqlStr := fmt.Sprintf("\n%s'%s',%s,'非虚拟运营商','联通',NULL,'%s','%s市',NULL,0,'中国联通',%s,%s,0);", str, strings.TrimLeft(v, ">"), strings.TrimLeft(v, ">"), pro, city, cityNum, postNum)
-		err := execSql(sqlStr)
-		if err != nil {
-			continue
-		}
-	}
+	//str := "INSERT INTO `bill`.`tb_mobile_number_section` (`id`,`number_section`,`operator_type`,`operator_name`,`virtual_operator_name`,`province`,`city`,`district`,`directly_city`,`card_type`,`area_code`,`post_code`,`is_display_redirnumber_info`) VALUES ("
+	//for _, v := range res {
+	//	// sql 语句拼接
+	//	sqlStr := fmt.Sprintf("\n%s'%s',%s,'非虚拟运营商','联通',NULL,'%s','%s市',NULL,0,'中国联通',%s,%s,0);", str, strings.TrimLeft(v, ">"), strings.TrimLeft(v, ">"), pro, city, cityNum, postNum)
+	//	err := execSql(sqlStr)
+	//	if err != nil {
+	//		continue
+	//	}
+	//}
 }
 
 // 执行 SQL 命令

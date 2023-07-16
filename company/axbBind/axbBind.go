@@ -1,12 +1,15 @@
 package main
 
 import (
+	"bytes"
 	"crypto/cipher"
 	"crypto/des"
 	"crypto/md5"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
 	"strconv"
 	"time"
 )
@@ -66,19 +69,22 @@ func main() {
 	request["signature"] = apiTools.Sign(request)
 
 	requestStr, _ := json.Marshal(request)
-	fmt.Println(string(requestStr))
+	//fmt.Println(string(requestStr))
+	apiTools.Req(requestStr)
+}
 
+func (t *ApiTools) Req(reqStr []byte) {
 	// 发送请求
-	//req, _ := http.NewRequest("POST", "http://61.139.144.36:9000/bas/api/query/request.json", bytes.NewBuffer(requestStr))
-	//req.Header.Set("Content-Type", "application/json")
-	//client := &http.Client{}
-	//resp, err := client.Do(req)
-	//if err != nil {
-	//	panic(err)
-	//}
-	//body, _ := io.ReadAll(resp.Body)
-	//fmt.Println(string(body))
-
+	req, _ := http.NewRequest("POST", "http://61.139.144.36:9000/bas/api/query/request.json", bytes.NewBuffer(reqStr))
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	// 读取响应
+	body, _ := io.ReadAll(resp.Body)
+	fmt.Println(string(body))
 }
 
 // MD5 计算字符串的 MD5 值

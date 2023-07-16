@@ -358,6 +358,8 @@ github.com/tinylib/msgp v1.1.0/go.mod h1:+d+yLhGm8mzTaHzB+wgMYrodPfmZrzkirds8fDW
 github.com/tinylib/msgp v1.1.2/go.mod h1:+d+yLhGm8mzTaHzB+wgMYrodPfmZrzkirds8fDWklFE=
 github.com/wanghuiyt/ding v0.0.1 h1:PfP1LpfbmfL+EtE4LiVqn0GrMiqEEz1bVV8g+j5WZwI=
 github.com/wanghuiyt/ding v0.0.1/go.mod h1:T1vPz74YMmGCBVKZzVsen/YAYRZ2bvBYXldUyD7Y4vc=
+github.com/wanghuiyt/ding v0.0.2 h1:6ZISlgCSy6MVeaFR8kAdniALMRqd56GyO9LlmYdTw/s=
+github.com/wanghuiyt/ding v0.0.2/go.mod h1:T1vPz74YMmGCBVKZzVsen/YAYRZ2bvBYXldUyD7Y4vc=
 github.com/willf/bitset v1.1.9/go.mod h1:RjeCKbqT1RxIR/KWY6phxZiaY1IyutSBfGjNPySAYV4=
 github.com/willf/bitset v1.1.10/go.mod h1:RjeCKbqT1RxIR/KWY6phxZiaY1IyutSBfGjNPySAYV4=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
