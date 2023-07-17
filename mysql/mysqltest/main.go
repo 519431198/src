@@ -52,11 +52,8 @@ func main() {
 	d := ding.Webhook{
 		AccessToken: "0b8e5c9299cc7ca77cc863381e8b5949c648a4804ae3993b046e3ee4ab33b70d",
 		Secret:      "SEC4b3633a968fe18595a855597c2be8315917e26b08b2eafe2f82f4d40314271eb",
-		//艾特所有人需要两个同时开启
-		EnableAt: true,  // 开启艾特
-		AtAll:    false, // 艾特所有人
 	}
-	err = d.SendMessage(str, "18326147303")
+	err = d.SendMessageText(str, "*")
 	if err != nil {
 		log.Fatalln(err)
 	}

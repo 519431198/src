@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/my/repo/company/telnet/utils"
 	"net"
 	"os"
 	"time"
-
-	"github.com/my/repo/telnet/utils"
 )
 
 type client struct {
