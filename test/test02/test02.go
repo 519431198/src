@@ -1,44 +1,61 @@
 package main
 
 import (
+	"context"
+	"database/sql"
+	"errors"
 	"fmt"
-	"github.com/anacrolix/torrent"
-	"log"
+	_ "github.com/go-sql-driver/mysql"
+	"time"
 )
 
+// 定义连接池
+var dbPool *sql.DB
+
 func main() {
-	//if len(os.Args) < 2 {
-	//	log.Fatal("Usage: go run db.go <magnet-link>")
+	//db, err := sql.Open("mysql", "root:123@tcp(10.0.0.10)/bill")
+	//if err != nil {
+	//	fmt.Println(errors.New("数据库连接失败"), err)
+	//	return
 	//}
+	//defer db.Close()
+	//err = db.Ping()
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
+	initDB()
+	// 获取连接池中的连接
+	db := dbPool
+	// 创建了一个5秒超时的 context ,并返回 context 和 取消函数
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
-	magnetURI := "magnet:?xt=urn:btih:947c36ae4f4fb3541e05e13e30022a8c46c24a36"
-
-	// 创建一个新的 torrent 客户端
-	client, err := torrent.NewClient(nil)
+	// 执行 SQL 命令
+	// 使用 db.ExecContext() 将 context 传给数据库请求,这会监测 context 是否还活跃,一旦 context 被取消,数据库请求将被关闭。
+	rows, err := db.QueryContext(ctx, "select * from `bill_ware_house`")
+	//res, err := db.ExecContext(ctx, "select * from `bill_ware_house`")
 	if err != nil {
-		log.Fatal(err)
+		fmt.Printf("%s跳过\n", err)
 	}
-	defer client.Close()
+	for rows.Next() {
 
-	// 添加磁力链接
-	t, err := client.AddMagnet(magnetURI)
+	}
+}
+
+// 初始化连接池
+func initDB() {
+	db, err := sql.Open("mysql", "root:123@tcp(10.0.0.10)/bill")
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(errors.New("数据库连接失败"), err)
 	}
-
-	// 等待 torrent 元数据下载完成
-	<-t.GotInfo()
-
-	// 打印文件信息
-	fmt.Println("Files:")
-	for _, file := range t.Files() {
-		fmt.Println("-", file.Path())
+	// 设置最大连接数
+	db.SetMaxOpenConns(20)
+	// 设置最大空闲数,最大空闲数一定要小于最大连接数
+	db.SetMaxIdleConns(10)
+	// 检查连接是否正常
+	err = db.Ping()
+	if err != nil {
+		panic(err.Error())
 	}
-
-	// 下载所有文件
-	fmt.Println("Downloading...")
-	t.DownloadAll()
-	<-t.GotInfo()
-
-	fmt.Println("Download complete!")
+	dbPool = db
 }

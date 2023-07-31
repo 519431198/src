@@ -49,6 +49,8 @@ require (
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/hajimehoshi/oto v1.0.1 // indirect
 	github.com/huandu/xstrings v1.3.2 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/lispad/go-generics-tools v1.1.0 // indirect
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794 // indirect
@@ -99,4 +101,6 @@ require (
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+	gorm.io/driver/mysql v1.5.1 // indirect
+	gorm.io/gorm v1.25.2 // indirect
 )

@@ -9,6 +9,7 @@ import (
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"regexp"
 	"strings"
 	"time"
@@ -31,7 +32,7 @@ var dbPool *sql.DB
 
 // 读取配置文件,反序列化到 config
 func readConfig() {
-	data, err := ioutil.ReadFile("/Users/wangyi/go/src/chatGpt/config/config.yaml")
+	data, err := os.ReadFile("/Users/wangyi/go/src/chatGpt/config/config.yaml")
 	if err != nil {
 		panic(err)
 	}
@@ -49,8 +50,10 @@ func initDB() {
 	if err != nil {
 		panic(err.Error())
 	}
-	db.SetMaxOpenConns(1000)
-	db.SetMaxIdleConns(500)
+	// 设置数据库连接池最大打开的连接数
+	db.SetMaxOpenConns(20)
+	// 设置连接池中最大空闲的连接数
+	db.SetMaxIdleConns(10)
 
 	// 检查连接池是否正常工作
 	err = db.Ping()
@@ -102,19 +105,19 @@ func province(res []string, pro, city string) {
 	// 区号
 	cityNum := fmt.Sprintf("%s", strings.TrimLeft(strings.Trim(res2[len(res2)-2], "><"), "0"))
 	fmt.Printf(cityNum)
-	// 邮编
-	//postNum := fmt.Sprintf("%s", strings.Trim(res2[len(res2)-1], "><"))
-	//fmt.Println("号段为:")
-	// sql 部分语句
-	//str := "INSERT INTO `bill`.`tb_mobile_number_section` (`id`,`number_section`,`operator_type`,`operator_name`,`virtual_operator_name`,`province`,`city`,`district`,`directly_city`,`card_type`,`area_code`,`post_code`,`is_display_redirnumber_info`) VALUES ("
-	//for _, v := range res {
-	//	// sql 语句拼接
-	//	sqlStr := fmt.Sprintf("\n%s'%s',%s,'非虚拟运营商','联通',NULL,'%s','%s市',NULL,0,'中国联通',%s,%s,0);", str, strings.TrimLeft(v, ">"), strings.TrimLeft(v, ">"), pro, city, cityNum, postNum)
-	//	err := execSql(sqlStr)
-	//	if err != nil {
-	//		continue
-	//	}
-	//}
+	//邮编
+	postNum := fmt.Sprintf("%s", strings.Trim(res2[len(res2)-1], "><"))
+	fmt.Println("号段为:")
+	//sql 部分语句
+	str := "INSERT INTO \"bill\".`tb_mobile_number_section` (`id`,`number_section`,`operator_type`,`operator_name`,`virtual_operator_name`,`province`,`city`,`district`,`directly_city`,`card_type`,`area_code`,`post_code`,`is_display_redirnumber_info`) VALUES ("
+	for _, v := range res {
+		// sql 语句拼接
+		sqlStr := fmt.Sprintf("\n%s'%s',%s,'非虚拟运营商','联通',NULL,'%s','%s市',NULL,0,'中国联通',%s,%s,0);", str, strings.TrimLeft(v, ">"), strings.TrimLeft(v, ">"), pro, city, cityNum, postNum)
+		err := execSql(sqlStr)
+		if err != nil {
+			continue
+		}
+	}
 }
 
 // 执行 SQL 命令
