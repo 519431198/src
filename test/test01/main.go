@@ -5,6 +5,9 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"os"
+	"path/filepath"
+	"time"
 )
 
 var db *gorm.DB
@@ -61,6 +64,15 @@ func init() {
 }
 
 func main() {
-	var billHn BillHn
-	db.Table("bill_hainan").Where("phone_number_a =13654913442").Find(&billHn)
+	now := time.Now()
+	// 获取前一天时间
+	oldTime := now.AddDate(0, 0, -1).Format("2006-01-02")
+	binPath, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		fmt.Println(err)
+	}
+	configPath := binPath + "/config.yaml"
+
+	resDataPath := filepath.Join(fmt.Sprintf("%s/%s.csv", binPath, oldTime))
+	fmt.Println(configPath, resDataPath)
 }

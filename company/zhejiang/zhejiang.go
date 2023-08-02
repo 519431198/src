@@ -9,6 +9,7 @@ import (
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -40,6 +41,14 @@ type BillHn struct {
 	Ability               string `gorm:"column:ability;size:50"`
 	CallRecognitionResult string `gorm:"column:call_recognition_result;size:50"`
 	AdditionalData        string `gorm:"column:additional_data;size:50"`
+}
+
+// Customer 解析配置文件
+type Customer struct {
+	Phones string
+}
+type Customers struct {
+	Customers map[string]Customer
 }
 
 //var mysqlLogger logger.Interface
@@ -74,12 +83,12 @@ func main() {
 	// 获取前一天时间
 	oldTime := now.AddDate(0, 0, -1).Format("2006-01-02")
 
-	//binPath, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
-	//
-	//resDataPath := filepath.Join(binPath + oldTime + ".csv")
+	binPath, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		fmt.Println(err)
+	}
+	// 获取当前路径下文件
+	//resDataPath := filepath.Join(fmt.Sprintf("%s/%s.csv", binPath, "hnzj_bill"))
 	resDataPath := "/Users/wangyi/goProject/project_1/src/company/zhejiang/" + oldTime + ".csv"
 	fmt.Println(resDataPath)
 	resFile, err := os.OpenFile(resDataPath, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
@@ -97,8 +106,11 @@ func main() {
 
 	// 创建结构体实例
 	var config Customers
+	// 获取当前路径下配置文件
+	configPath := binPath + "/config.yaml"
 	// 打开配置文件,创建文件句柄
-	file, err := os.Open("/Users/wangyi/goProject/project_1/src/company/zhejiang/config.yaml")
+	//file, err := os.Open("/Users/wangyi/goProject/project_1/src/company/zhejiang/config.yaml")
+	file, err := os.Open(configPath)
 	if err != nil {
 		fmt.Println("文件读取失败: ", err)
 	}
@@ -129,12 +141,4 @@ func main() {
 			fmt.Println("刷新写入失败", err)
 		}
 	}
-}
-
-// Customer 解析配置文件
-type Customer struct {
-	Phones string
-}
-type Customers struct {
-	Customers map[string]Customer
 }
