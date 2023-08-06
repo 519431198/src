@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/wanghuiyt/ding"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -164,6 +165,18 @@ func execute(billList []billHainan, log10 *gorm.DB, insTableDay, insTableMonth s
 	}
 }
 
+// 钉钉告警
+func dingAlert() {
+	d := ding.Webhook{
+		AccessToken: "31df59595aecb5a54e0b636938c0840bdbbb8997035ed76277949e858a353a3b",
+		Secret:      "SEC70ad42a40d7078a72659de1fcf319ead027a9a78a8d2dead22bb3beda333bd10",
+	}
+	err := d.SendMessageText("数据库未分表", "18326147303")
+	if err != nil {
+		fmt.Println("钉钉告警失败", err)
+	}
+}
+
 func main() {
 	var count int64
 	var limit = 1000
@@ -174,12 +187,18 @@ func main() {
 	insTableDay, insTableMonth, queryTable, log10, log93 := val()
 
 	// 新建表日表和月表
-	log10.Table(insTableDay).AutoMigrate(&bill)
-	log10.Table(insTableMonth).AutoMigrate(&bill)
-
+	err := log10.Table(insTableDay).AutoMigrate(&bill)
+	if err != nil {
+		fmt.Println("建表失败", err)
+	}
+	err = log10.Table(insTableMonth).AutoMigrate(&bill)
+	if err != nil {
+		fmt.Println("建表失败", err)
+	}
 	// 查询符合条件的数量
 	b := log93.Table(queryTable).Migrator().HasTable(&t)
 	if !b {
+		dingAlert()
 	}
 
 	log93.Table(queryTable).Where("start_time != release_time").Select("COUNT(1)").Scan(&count)

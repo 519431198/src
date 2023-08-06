@@ -7,14 +7,15 @@ import (
 
 func main() {
 	//导入包 go get -u github.com/wanghuiyt/ding
+	dingAlert()
+}
+
+func dingAlert() {
 	d := ding.Webhook{
-		AccessToken: "0b8e5c9299cc7ca77cc863381e8b5949c648a4804ae3993b046e3ee4ab33b70d",
-		Secret:      "SEC4b3633a968fe18595a855597c2be8315917e26b08b2eafe2f82f4d40314271eb",
-		//艾特所有人需要两个同时开启
-		EnableAt: true,  // 开启艾特
-		AtAll:    false, // 艾特所有人
+		AccessToken: "31df59595aecb5a54e0b636938c0840bdbbb8997035ed76277949e858a353a3b",
+		Secret:      "SEC70ad42a40d7078a72659de1fcf319ead027a9a78a8d2dead22bb3beda333bd10",
 	}
-	err := d.SendMessage("周末天气真好啊!", "18326147303")
+	err := d.SendMessageText("数据库未分表!", "18930547397")
 	if err != nil {
 		log.Fatalln(err)
 	}
