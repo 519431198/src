@@ -6,7 +6,6 @@ import (
 	"gopkg.in/yaml.v3"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 	"os"
 	"path/filepath"
@@ -76,7 +75,7 @@ func init() {
 		"&loc=Local&timeout=%s", username, password, host, port, timeout)
 	dbClient, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		SkipDefaultTransaction: true,
-		Logger:                 logger.Default.LogMode(logger.Silent),
+		//Logger:                 logger.Default.LogMode(logger.Silent),
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
 		},
