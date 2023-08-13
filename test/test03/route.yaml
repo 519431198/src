@@ -1,0 +1,7 @@
+routes:
+  - path: "/route1"
+    method: "POST"
+    handler: "Handler1"
+  - path: "/route2"
+    method: "GET"
+    handler: "Handler2"

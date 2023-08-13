@@ -199,6 +199,7 @@ func main() {
 	b := log93.Table(queryTable).Migrator().HasTable(&t)
 	if !b {
 		dingAlert()
+		return
 	}
 
 	log93.Table(queryTable).Where("start_time != release_time").Select("COUNT(1)").Scan(&count)

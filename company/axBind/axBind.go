@@ -79,7 +79,7 @@ func main() {
 
 	// 读文件方式绑定
 	phone := map[string]string{}
-	data, _ := os.ReadFile("test/test03/phone.yaml")
+	data, _ := os.ReadFile("test/test03/route.yaml")
 	_ = yaml.Unmarshal(data, &phone)
 	for numX, numA := range phone {
 		webSiteData := utils.GetWebsiteData(url + numX)
