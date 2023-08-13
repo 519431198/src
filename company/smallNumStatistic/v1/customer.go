@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/my/repo/company/小号平台分客户统计/utils"
+	"github.com/my/repo/company/smallNumStatistic/v1/utils"
 	"gopkg.in/yaml.v3"
 	"os"
 	"path/filepath"
